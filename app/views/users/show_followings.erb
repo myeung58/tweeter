@@ -1,0 +1,7 @@
+<div class="container">
+  <h2><%= @user.username %> is following:</h2>
+  <% @followings.each do |following| %>
+    <p><a href="/users/<%=following.id%>/homepage"><%= following.username %></a></p>
+  <% end %>
+</div>
+

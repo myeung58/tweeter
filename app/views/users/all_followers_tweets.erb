@@ -1,0 +1,10 @@
+<section class="section">
+    <% all_users_id = [] %>
+    <% all_followers = Following.where(follower_id: @user.id) %>
+    <% all_followers.each do |follower| %>
+    <p> <% all_users_id << User.find(follower.following_id).id %> </p>
+    <% end %>
+    <% Tweet.order(:created_at).where(user_id: all_users_id).each do |tweet| %>
+    <p>@<%= User.find(tweet.user).username %> - <%= tweet.content %> - <%= tweet.created_at %></p>
+  <% end %>
+</section>

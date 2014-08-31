@@ -1,0 +1,79 @@
+<center>
+<header id="home_head">
+  <h2>Tweeter</h2>
+  <nav class="nav">
+    <table id="nav_table">
+      <thead>
+        <tr>
+          <th><img id="small_avatar" src ="<%= avatar_url(@user.email) %>"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if logged_in? && page_owner? %>
+          <tr>
+            <td><a href="/">Home</a></td>
+          </tr>
+          <tr>
+            <td><a href="/users/<%=@user.id%>/followers">Followers</a></td>
+          </tr>
+          <tr>
+            <td><a href="/users/<%=@user.id%>/following">Following</a></td>
+          </tr>
+          <tr>
+            <td><a href="/users/<%=@user.id%>/edit">Edit profile</a></td>
+          </tr>
+          <tr>
+            <td><a href="/logout">Log out</a></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </nav>
+</header>
+
+<div class="container">
+  <section class="section">
+    <img src ="<%= avatar_url(@user.email) %>">
+
+    <h3><%= @user.username %>'s profile</h3>
+
+      <p><%= @user.first_name %> <%= @user.last_name %></p>
+      <p><%= @user.about %></p>
+      <p><%= @user.location %></p>
+      <% if logged_in? && !page_owner? %>
+        <% if not_currently_followed_by_me(params[:id]) %>
+          <a href="/users/<%=current_user.id%>/follow/<%=params[:id]%>">Follow</a>
+        <% elsif !not_currently_followed_by_me(params[:id]) %>
+          <div id="friend">You are following this person</div>
+        <% end %>
+      <% end %>
+
+      <% if logged_in? && page_owner? %>
+        <a href="/users/<%=@user.id%>/followers">Followers</a>
+        <a href="/users/<%=@user.id%>/following">Following</a>
+        <a href="/users/<%=@user.id%>/edit">Edit profile</a>
+      <% end %>
+    </section>
+</div>
+
+<% if logged_in? && page_owner? %>
+  <h2><a id="new_tweet" href="/users/<%= @user.id %>/tweets/new">Create new tweet</a></h2>
+<% end %>
+
+</center>
+
+<center>
+  <%= erb :"users/all_followers_tweets" %>
+</center>
+
+<center>
+<% if logged_in? && page_owner? %>
+  <p>Recommended users:</p>
+  <!-- follow a user -->
+  <% @not_following.each do |user| %>
+    <p>
+      <a href="/users/<%=user.id%>/homepage"><%= user.username %></a> <a href="/users/<%=@user.id%>/follow/<%=user.id%>"><br><input type="submit" value="Follow"></a>
+    </p>
+  <% end %>
+<% end %>
+</center>

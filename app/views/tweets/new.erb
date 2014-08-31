@@ -1,0 +1,5 @@
+<h2>New Tweet</h2>
+<form action="/users/<%= @user.id %>/tweets/new" method="post">
+  <textarea maxlength="140" type="text" name="content" placeholder="limit 140 characters"></textarea><br>
+  <input type="submit" value="Tweet">
+</form>
